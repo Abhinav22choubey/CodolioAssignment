@@ -1,66 +1,6 @@
 {
   "topics": [
     {
-      "id": "topic-arrays",
-      "title": "Arrays",
-      "subTopics": [
-        {
-          "id": "subtopic-arrays-general",
-          "title": "General",
-          "questions": [
-            {
-              "id": "66e769be8a15c1adcdf77a4c",
-              "title": "Set Matrix Zeros",
-              "difficulty": "Medium",
-              "platform": "leetcode",
-              "problemUrl": "https://leetcode.com/problems/set-matrix-zeroes",
-              "resource": "https://youtu.be/N0MgLvceX7M"
-            },
-            {
-              "id": "66e769be8a15c1adcdf77a50",
-              "title": "Pascal's Triangle",
-              "difficulty": "Easy",
-              "platform": "leetcode",
-              "problemUrl": "https://leetcode.com/problems/pascals-triangle",
-              "resource": "https://youtu.be/bR7mQgwQ_o8"
-            },
-            {
-              "id": "66e769be8a15c1adcdf77a54",
-              "title": "Next Permutation",
-              "difficulty": "Medium",
-              "platform": "leetcode",
-              "problemUrl": "https://leetcode.com/problems/next-permutation",
-              "resource": "https://youtu.be/JDOXKqF60RQ"
-            },
-            {
-              "id": "66e769be8a15c1adcdf77a58",
-              "title": "Kadane's Algorithm",
-              "difficulty": "Medium",
-              "platform": "leetcode",
-              "problemUrl": "https://leetcode.com/problems/maximum-subarray",
-              "resource": "https://youtu.be/AHZpyENo7k4"
-            },
-            {
-              "id": "66e769be8a15c1adcdf77a5c",
-              "title": "Sort an array of 0's, 1's and 2's",
-              "difficulty": "Medium",
-              "platform": "leetcode",
-              "problemUrl": "https://leetcode.com/problems/sort-colors",
-              "resource": "https://www.youtube.com/watch?v=tp8JIuCXBaU&list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz&index=20"
-            },
-            {
-              "id": "66e769be8a15c1adcdf77a60",
-              "title": "Stock Buy and Sell",
-              "difficulty": "Easy",
-              "platform": "leetcode",
-              "problemUrl": "https://leetcode.com/problems/best-time-to-buy-and-sell-stock",
-              "resource": "https://youtu.be/excAOvwF_Wk"
-            }
-          ]
-        }
-      ]
-    },
-    {
       "id": "topic-arrays-part-ii",
       "title": "Arrays Part-II",
       "subTopics": [
@@ -68,14 +8,6 @@
           "id": "subtopic-arrays-part-ii-general",
           "title": "General",
           "questions": [
-            {
-              "id": "66e769be8a15c1adcdf77a64",
-              "title": "Rotate Matrix",
-              "difficulty": "Medium",
-              "platform": "leetcode",
-              "problemUrl": "https://leetcode.com/problems/rotate-image",
-              "resource": "https://youtu.be/Z0R2u6gd3GU"
-            },
             {
               "id": "66e769be8a15c1adcdf77a68",
               "title": "Merge Overlapping Subintervals",
@@ -535,6 +467,66 @@
               "platform": "leetcode",
               "problemUrl": "https://leetcode.com/problems/permutation-sequence",
               "resource": "https://www.youtube.com/watch?v=wT7gcXLYoao&list=PLgUwDviBIf0p4ozDR_kJJkONnb1wdx2Ma&index=55"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "topic-arrays",
+      "title": "Arrays",
+      "subTopics": [
+        {
+          "id": "subtopic-arrays-general",
+          "title": "General",
+          "questions": [
+            {
+              "id": "66e769be8a15c1adcdf77a50",
+              "title": "Pascal's Triangle",
+              "difficulty": "Easy",
+              "platform": "leetcode",
+              "problemUrl": "https://leetcode.com/problems/pascals-triangle",
+              "resource": "https://youtu.be/bR7mQgwQ_o8"
+            },
+            {
+              "id": "66e769be8a15c1adcdf77a54",
+              "title": "Next Permutation",
+              "difficulty": "Medium",
+              "platform": "leetcode",
+              "problemUrl": "https://leetcode.com/problems/next-permutation",
+              "resource": "https://youtu.be/JDOXKqF60RQ"
+            },
+            {
+              "id": "66e769be8a15c1adcdf77a4c",
+              "title": "Set Matrix Zeros",
+              "difficulty": "Medium",
+              "platform": "leetcode",
+              "problemUrl": "https://leetcode.com/problems/set-matrix-zeroes",
+              "resource": "https://youtu.be/N0MgLvceX7M"
+            },
+            {
+              "id": "66e769be8a15c1adcdf77a58",
+              "title": "Kadane's Algorithm",
+              "difficulty": "Medium",
+              "platform": "leetcode",
+              "problemUrl": "https://leetcode.com/problems/maximum-subarray",
+              "resource": "https://youtu.be/AHZpyENo7k4"
+            },
+            {
+              "id": "66e769be8a15c1adcdf77a5c",
+              "title": "Sort an array of 0's, 1's and 2's",
+              "difficulty": "Medium",
+              "platform": "leetcode",
+              "problemUrl": "https://leetcode.com/problems/sort-colors",
+              "resource": "https://www.youtube.com/watch?v=tp8JIuCXBaU&list=PLgUwDviBIf0oF6QL8m22w1hIDC1vJ_BHz&index=20"
+            },
+            {
+              "id": "66e769be8a15c1adcdf77a60",
+              "title": "Stock Buy and Sell",
+              "difficulty": "Easy",
+              "platform": "leetcode",
+              "problemUrl": "https://leetcode.com/problems/best-time-to-buy-and-sell-stock",
+              "resource": "https://youtu.be/excAOvwF_Wk"
             }
           ]
         }
@@ -1847,6 +1839,26 @@
               "platform": "leetcode",
               "problemUrl": "https://leetcode.com/problems/maximum-xor-with-an-element-from-array",
               "resource": "https://www.youtube.com/watch?v=Q8LhG9Pi5KM&list=PLgUwDviBIf0pcIDCZnxhv0LkHf5KzG9zp&index=7"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "topic-7e53549d-d720-446d-9122-d1771919b032",
+      "title": "B Tree",
+      "subTopics": [
+        {
+          "id": "subtopic-3e4f4863-1e7f-4120-9a19-c0f5bed51a06",
+          "title": "New",
+          "questions": [
+            {
+              "id": "question-ad1d583f-967b-4420-9d6b-fe6fe491d2f4",
+              "title": "Trapping Rain water",
+              "difficulty": "Hard",
+              "platform": "gfg",
+              "problemUrl": "https://docs.google.com/document/d/1Nq-MwAVsXnaKYqKJ6B80xAbd03jFjh9T5_FrXoWoQuE/edit?tab=t.0",
+              "resource": null
             }
           ]
         }
