@@ -1,4 +1,6 @@
+
 import { create } from "zustand";
+
 import type { Topic, SubTopic, Question } from "../types/sheet";
 
 export type ModalType =
@@ -46,15 +48,12 @@ interface UIState {
   setSubTopicExpanded: (id: string, expanded: boolean) => void;
   expandAll: (topics: Topic[]) => void;
   collapseAll: () => void;
-
   setSearchQuery: (query: string) => void;
   setDifficultyFilter: (diff: DifficultyFilter) => void;
   setPlatformFilter: (platform: string) => void;
   resetFilters: () => void;
-
   toggleDarkMode: () => void;
   setDarkMode: (dark: boolean) => void;
-
   openModal: (type: ModalType, payload?: ModalPayload) => void;
   closeModal: () => void;
 }
@@ -66,9 +65,11 @@ const STORAGE_KEY_EXPANDED_SUBTOPICS = "codolio_expanded_subtopics";
 function getInitialTheme(): boolean {
   try {
     const saved = localStorage.getItem(STORAGE_KEY_THEME);
+
     if (saved !== null) {
       return saved === "dark";
     }
+
     return window.matchMedia("(prefers-color-scheme: dark)").matches;
   } catch {
     return false;
@@ -78,6 +79,7 @@ function getInitialTheme(): boolean {
 function getInitialExpandedTopics(): Record<string, boolean> {
   try {
     const saved = localStorage.getItem(STORAGE_KEY_EXPANDED_TOPICS);
+
     return saved ? JSON.parse(saved) : {};
   } catch {
     return {};
@@ -87,6 +89,7 @@ function getInitialExpandedTopics(): Record<string, boolean> {
 function getInitialExpandedSubTopics(): Record<string, boolean> {
   try {
     const saved = localStorage.getItem(STORAGE_KEY_EXPANDED_SUBTOPICS);
+
     return saved ? JSON.parse(saved) : {};
   } catch {
     return {};
@@ -95,6 +98,7 @@ function getInitialExpandedSubTopics(): Record<string, boolean> {
 
 export const useUIStore = create<UIState>((set, get) => {
   const initialDark = getInitialTheme();
+
   if (typeof document !== "undefined") {
     if (initialDark) {
       document.documentElement.classList.add("dark");
@@ -106,10 +110,13 @@ export const useUIStore = create<UIState>((set, get) => {
   return {
     expandedTopics: getInitialExpandedTopics(),
     expandedSubTopics: getInitialExpandedSubTopics(),
+
     searchQuery: "",
     difficultyFilter: "ALL",
     platformFilter: "ALL",
+
     isDarkMode: initialDark,
+
     activeModal: null,
     modalPayload: null,
 
@@ -118,11 +125,16 @@ export const useUIStore = create<UIState>((set, get) => {
         ...get().expandedTopics,
         [id]: !get().expandedTopics[id],
       };
+
       try {
-        localStorage.setItem(STORAGE_KEY_EXPANDED_TOPICS, JSON.stringify(next));
+        localStorage.setItem(
+          STORAGE_KEY_EXPANDED_TOPICS,
+          JSON.stringify(next)
+        );
       } catch {
-        // ignore
+        // Ignore localStorage errors
       }
+
       set({ expandedTopics: next });
     },
 
@@ -131,50 +143,83 @@ export const useUIStore = create<UIState>((set, get) => {
         ...get().expandedSubTopics,
         [id]: !get().expandedSubTopics[id],
       };
+
       try {
-        localStorage.setItem(STORAGE_KEY_EXPANDED_SUBTOPICS, JSON.stringify(next));
+        localStorage.setItem(
+          STORAGE_KEY_EXPANDED_SUBTOPICS,
+          JSON.stringify(next)
+        );
       } catch {
-        // ignore
+        // Ignore localStorage errors
       }
+
       set({ expandedSubTopics: next });
     },
 
     setTopicExpanded: (id: string, expanded: boolean) => {
-      const next = { ...get().expandedTopics, [id]: expanded };
+      const next = {
+        ...get().expandedTopics,
+        [id]: expanded,
+      };
+
       try {
-        localStorage.setItem(STORAGE_KEY_EXPANDED_TOPICS, JSON.stringify(next));
+        localStorage.setItem(
+          STORAGE_KEY_EXPANDED_TOPICS,
+          JSON.stringify(next)
+        );
       } catch {
-        // ignore
+        // Ignore localStorage errors
       }
+
       set({ expandedTopics: next });
     },
 
     setSubTopicExpanded: (id: string, expanded: boolean) => {
-      const next = { ...get().expandedSubTopics, [id]: expanded };
+      const next = {
+        ...get().expandedSubTopics,
+        [id]: expanded,
+      };
+
       try {
-        localStorage.setItem(STORAGE_KEY_EXPANDED_SUBTOPICS, JSON.stringify(next));
+        localStorage.setItem(
+          STORAGE_KEY_EXPANDED_SUBTOPICS,
+          JSON.stringify(next)
+        );
       } catch {
-        // ignore
+        // Ignore localStorage errors
       }
+
       set({ expandedSubTopics: next });
     },
 
     expandAll: (topics: Topic[]) => {
       const topicsMap: Record<string, boolean> = {};
-      const subTopicsMap: Record<string, boolean> = {};
 
-      topics.forEach((t) => {
-        topicsMap[t.id] = true;
-        t.subTopics?.forEach((s) => {
-          subTopicsMap[s.id] = true;
-        });
+      topics.forEach((topic) => {
+        topicsMap[topic.id] = true;
       });
 
+      /*
+       * Subtopics are fetched separately through useSubTopics(),
+       * so Topic does not contain a `subTopics` property.
+       *
+       * Keep the existing expandedSubTopics state instead of
+       * trying to access topic.subTopics here.
+       */
+      const subTopicsMap = get().expandedSubTopics;
+
       try {
-        localStorage.setItem(STORAGE_KEY_EXPANDED_TOPICS, JSON.stringify(topicsMap));
-        localStorage.setItem(STORAGE_KEY_EXPANDED_SUBTOPICS, JSON.stringify(subTopicsMap));
+        localStorage.setItem(
+          STORAGE_KEY_EXPANDED_TOPICS,
+          JSON.stringify(topicsMap)
+        );
+
+        localStorage.setItem(
+          STORAGE_KEY_EXPANDED_SUBTOPICS,
+          JSON.stringify(subTopicsMap)
+        );
       } catch {
-        // ignore
+        // Ignore localStorage errors
       }
 
       set({
@@ -185,20 +230,34 @@ export const useUIStore = create<UIState>((set, get) => {
 
     collapseAll: () => {
       try {
-        localStorage.setItem(STORAGE_KEY_EXPANDED_TOPICS, JSON.stringify({}));
-        localStorage.setItem(STORAGE_KEY_EXPANDED_SUBTOPICS, JSON.stringify({}));
+        localStorage.setItem(
+          STORAGE_KEY_EXPANDED_TOPICS,
+          JSON.stringify({})
+        );
+
+        localStorage.setItem(
+          STORAGE_KEY_EXPANDED_SUBTOPICS,
+          JSON.stringify({})
+        );
       } catch {
-        // ignore
+        // Ignore localStorage errors
       }
+
       set({
         expandedTopics: {},
         expandedSubTopics: {},
       });
     },
 
-    setSearchQuery: (searchQuery: string) => set({ searchQuery }),
-    setDifficultyFilter: (difficultyFilter: DifficultyFilter) => set({ difficultyFilter }),
-    setPlatformFilter: (platformFilter: string) => set({ platformFilter }),
+    setSearchQuery: (searchQuery: string) =>
+      set({ searchQuery }),
+
+    setDifficultyFilter: (difficultyFilter: DifficultyFilter) =>
+      set({ difficultyFilter }),
+
+    setPlatformFilter: (platformFilter: string) =>
+      set({ platformFilter }),
+
     resetFilters: () =>
       set({
         searchQuery: "",
@@ -208,6 +267,7 @@ export const useUIStore = create<UIState>((set, get) => {
 
     toggleDarkMode: () => {
       const nextMode = !get().isDarkMode;
+
       if (typeof document !== "undefined") {
         if (nextMode) {
           document.documentElement.classList.add("dark");
@@ -215,11 +275,16 @@ export const useUIStore = create<UIState>((set, get) => {
           document.documentElement.classList.remove("dark");
         }
       }
+
       try {
-        localStorage.setItem(STORAGE_KEY_THEME, nextMode ? "dark" : "light");
+        localStorage.setItem(
+          STORAGE_KEY_THEME,
+          nextMode ? "dark" : "light"
+        );
       } catch {
-        // ignore
+        // Ignore localStorage errors
       }
+
       set({ isDarkMode: nextMode });
     },
 
@@ -231,17 +296,32 @@ export const useUIStore = create<UIState>((set, get) => {
           document.documentElement.classList.remove("dark");
         }
       }
+
       try {
-        localStorage.setItem(STORAGE_KEY_THEME, dark ? "dark" : "light");
+        localStorage.setItem(
+          STORAGE_KEY_THEME,
+          dark ? "dark" : "light"
+        );
       } catch {
-        // ignore
+        // Ignore localStorage errors
       }
+
       set({ isDarkMode: dark });
     },
 
-    openModal: (type: ModalType, payload: ModalPayload = {}) =>
-      set({ activeModal: type, modalPayload: payload }),
+    openModal: (
+      type: ModalType,
+      payload: ModalPayload = {}
+    ) =>
+      set({
+        activeModal: type,
+        modalPayload: payload,
+      }),
 
-    closeModal: () => set({ activeModal: null, modalPayload: null }),
+    closeModal: () =>
+      set({
+        activeModal: null,
+        modalPayload: null,
+      }),
   };
 });

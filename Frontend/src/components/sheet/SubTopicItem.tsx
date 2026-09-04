@@ -34,7 +34,6 @@ import type { AxiosError } from "axios";
 import type {
   SubTopic,
   Question,
-  Topic,
 } from "../../types/sheet";
 
 import { DragHandle } from "../common/DragHandle";
@@ -84,12 +83,6 @@ export const SubTopicItem = ({
 
   const queryClient = useQueryClient();
 
-  /*
-   * Fetch questions specifically for this sub-topic.
-   *
-   * React Query key:
-   * ["subtopics", subTopic.id, "questions"]
-   */
   const {
     data: questions = [],
     isLoading: isQuestionsLoading,
@@ -111,24 +104,10 @@ export const SubTopicItem = ({
       );
 
   /*
-   * IMPORTANT:
-   *
-   * Do NOT use:
-   *
-   *   subTopic.questions
-   *
-   * anymore.
-   *
-   * The questions endpoint is now the source of truth.
+   * Questions API is the source of truth.
    */
   const allQuestions = questions;
 
-  /*
-   * When filters are active, use the filtered questions
-   * passed from the parent.
-   *
-   * Otherwise show ALL questions fetched for this sub-topic.
-   */
   const displayQuestions = isFilterActive
     ? filteredQuestions ?? []
     : allQuestions;
@@ -136,7 +115,7 @@ export const SubTopicItem = ({
   const totalCount = allQuestions.length;
 
   /*
-   * Sortable hook for the sub-topic itself.
+   * Sortable hook for this sub-topic.
    */
   const {
     attributes,
@@ -176,15 +155,17 @@ export const SubTopicItem = ({
       return;
     }
 
-    const oldIndex = displayQuestions.findIndex(
-      (question) =>
-        question.id === active.id
-    );
+    const oldIndex =
+      displayQuestions.findIndex(
+        (question) =>
+          question.id === active.id
+      );
 
-    const newIndex = displayQuestions.findIndex(
-      (question) =>
-        question.id === over.id
-    );
+    const newIndex =
+      displayQuestions.findIndex(
+        (question) =>
+          question.id === over.id
+      );
 
     if (
       oldIndex === -1 ||
@@ -193,9 +174,6 @@ export const SubTopicItem = ({
       return;
     }
 
-    /*
-     * Create the new order.
-     */
     const newOrder = arrayMove(
       displayQuestions,
       oldIndex,
@@ -207,8 +185,8 @@ export const SubTopicItem = ({
     );
 
     /*
-     * Save the previous cache values so we can
-     * restore them if the API request fails.
+     * Save previous questions cache so
+     * we can roll back if the API fails.
      */
     const previousQuestions =
       queryClient.getQueryData<Question[]>([
@@ -217,13 +195,11 @@ export const SubTopicItem = ({
         "questions",
       ]);
 
-    const previousTopics =
-      queryClient.getQueryData<Topic[]>([
-        "topics",
-      ]);
-
     /*
-     * Optimistically update questions query.
+     * Optimistically update ONLY the questions cache.
+     *
+     * Topic does not expose subTopics in the
+     * current TypeScript model, so don't mutate it here.
      */
     queryClient.setQueryData<Question[]>(
       [
@@ -232,45 +208,6 @@ export const SubTopicItem = ({
         "questions",
       ],
       newOrder
-    );
-
-    /*
-     * Also update topics cache because other
-     * components may be reading questions from
-     * the topics cache.
-     */
-    queryClient.setQueryData<Topic[]>(
-      ["topics"],
-      (oldTopics) => {
-        if (!oldTopics) {
-          return oldTopics;
-        }
-
-        return oldTopics.map((topic) => {
-          if (topic.id !== topicId) {
-            return topic;
-          }
-
-          return {
-            ...topic,
-
-            subTopics: (
-              topic.subTopics || []
-            ).map((sub) => {
-              if (
-                sub.id !== subTopic.id
-              ) {
-                return sub;
-              }
-
-              return {
-                ...sub,
-                questions: newOrder,
-              };
-            }),
-          };
-        });
-      }
     );
 
     /*
@@ -289,8 +226,6 @@ export const SubTopicItem = ({
 
           /*
            * Backend is the final source of truth.
-           * Refetch the questions after successful
-           * reorder.
            */
           queryClient.invalidateQueries({
             queryKey: [
@@ -298,10 +233,6 @@ export const SubTopicItem = ({
               subTopic.id,
               "questions",
             ],
-          });
-
-          queryClient.invalidateQueries({
-            queryKey: ["topics"],
           });
         },
 
@@ -334,16 +265,6 @@ export const SubTopicItem = ({
               ],
             });
           }
-
-          /*
-           * Restore previous topics cache.
-           */
-          if (previousTopics) {
-            queryClient.setQueryData(
-              ["topics"],
-              previousTopics
-            );
-          }
         },
       }
     );
@@ -358,20 +279,16 @@ export const SubTopicItem = ({
       {/* Subtopic Header */}
       <div className="flex items-center justify-between gap-3 px-3.5 py-2.5 bg-slate-100/70 dark:bg-slate-800/60 border-b border-slate-200/60 dark:border-slate-800 transition-colors">
         <div className="flex items-center gap-2 min-w-0 flex-1">
-          {/* Drag Handle */}
           <DragHandle
             {...attributes}
             {...listeners}
             label={`Drag ${subTopic.title}`}
           />
 
-          {/* Expand / Collapse */}
           <button
             type="button"
             onClick={() =>
-              toggleSubTopic(
-                subTopic.id
-              )
+              toggleSubTopic(subTopic.id)
             }
             aria-label={
               isExpanded
@@ -389,13 +306,10 @@ export const SubTopicItem = ({
             />
           </button>
 
-          {/* Subtopic Title */}
           <button
             type="button"
             onClick={() =>
-              toggleSubTopic(
-                subTopic.id
-              )
+              toggleSubTopic(subTopic.id)
             }
             className="flex items-center gap-2 text-left font-medium text-slate-800 dark:text-slate-200 hover:text-orange-600 dark:hover:text-orange-400 text-sm truncate"
           >
@@ -406,7 +320,6 @@ export const SubTopicItem = ({
             </span>
           </button>
 
-          {/* Question Count */}
           <span className="hidden sm:inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 shrink-0">
             <HelpCircle className="w-3 h-3 text-slate-400" />
 
@@ -425,15 +338,13 @@ export const SubTopicItem = ({
 
         {/* Subtopic Actions */}
         <div className="flex items-center gap-1.5 shrink-0">
-          {/* Add Question */}
           <button
             type="button"
             onClick={() =>
               openModal(
                 "create-question",
                 {
-                  subTopicId:
-                    subTopic.id,
+                  subTopicId: subTopic.id,
                   subTopic,
                   topicId,
                 }
@@ -448,7 +359,6 @@ export const SubTopicItem = ({
             </span>
           </button>
 
-          {/* Edit */}
           <button
             type="button"
             onClick={() =>
@@ -466,7 +376,6 @@ export const SubTopicItem = ({
             <Pencil className="w-3.5 h-3.5" />
           </button>
 
-          {/* Delete */}
           <button
             type="button"
             onClick={() =>
@@ -489,13 +398,11 @@ export const SubTopicItem = ({
       {/* Expanded Questions */}
       {isExpanded && (
         <div className="divide-y divide-slate-100 dark:divide-slate-800/80">
-          {/* Loading */}
           {isQuestionsLoading ? (
             <div className="p-6 bg-white dark:bg-slate-900 text-center text-sm text-slate-500 dark:text-slate-400">
               Loading questions...
             </div>
           ) : isQuestionsError ? (
-            /* Error */
             <div className="p-6 bg-white dark:bg-slate-900 text-center">
               <p className="text-sm text-rose-500">
                 Failed to load questions.
@@ -518,7 +425,6 @@ export const SubTopicItem = ({
               </button>
             </div>
           ) : displayQuestions.length === 0 ? (
-            /* Empty */
             <div className="p-4 bg-white dark:bg-slate-900">
               <EmptyState
                 type="questions"
@@ -529,8 +435,7 @@ export const SubTopicItem = ({
                       openModal(
                         "create-question",
                         {
-                          subTopicId:
-                            subTopic.id,
+                          subTopicId: subTopic.id,
                           subTopic,
                           topicId,
                         }
@@ -545,18 +450,14 @@ export const SubTopicItem = ({
               />
             </div>
           ) : (
-            /* Questions List */
             <DndContext
               sensors={sensors}
               collisionDetection={closestCenter}
-              onDragEnd={
-                handleQuestionDragEnd
-              }
+              onDragEnd={handleQuestionDragEnd}
             >
               <SortableContext
                 items={displayQuestions.map(
-                  (question) =>
-                    question.id
+                  (question) => question.id
                 )}
                 strategy={
                   verticalListSortingStrategy

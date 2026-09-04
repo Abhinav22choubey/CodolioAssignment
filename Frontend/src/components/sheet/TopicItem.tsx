@@ -24,7 +24,7 @@ import {
 } from "lucide-react";
 import { toast } from "sonner";
 import type { AxiosError } from "axios";
-import type { Topic, SubTopic } from "../../types/sheet";
+import type { Topic } from "../../types/sheet";
 import { DragHandle } from "../common/DragHandle";
 import { SubTopicItem } from "./SubTopicItem";
 import { EmptyState } from "../common/EmptyState";
@@ -48,7 +48,7 @@ export const TopicItem = ({ topic, index }: TopicItemProps) => {
     data: subTopics = [],
     isLoading,
     isError,
-  } = useSubTopics(topic.id, isExpanded);
+  } = useSubTopics(topic.id);
   const {
     attributes,
     listeners,
