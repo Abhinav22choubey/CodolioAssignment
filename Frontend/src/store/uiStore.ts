@@ -13,7 +13,6 @@ export type ModalType =
   | "delete-question";
 
 export type DifficultyFilter = "ALL" | "Easy" | "Medium" | "Hard";
-export type SolvedFilter = "ALL" | "SOLVED" | "UNSOLVED";
 
 export interface ModalPayload {
   topic?: Topic;
@@ -31,11 +30,7 @@ interface UIState {
   // Search and filters
   searchQuery: string;
   difficultyFilter: DifficultyFilter;
-  solvedFilter: SolvedFilter;
   platformFilter: string;
-
-  // Solved state (client-side persisted)
-  solvedQuestions: Record<string, boolean>;
 
   // Theme
   isDarkMode: boolean;
@@ -54,12 +49,8 @@ interface UIState {
 
   setSearchQuery: (query: string) => void;
   setDifficultyFilter: (diff: DifficultyFilter) => void;
-  setSolvedFilter: (solved: SolvedFilter) => void;
   setPlatformFilter: (platform: string) => void;
   resetFilters: () => void;
-
-  toggleQuestionSolved: (questionId: string) => void;
-  isQuestionSolved: (questionId: string) => boolean;
 
   toggleDarkMode: () => void;
   setDarkMode: (dark: boolean) => void;
@@ -68,19 +59,9 @@ interface UIState {
   closeModal: () => void;
 }
 
-const STORAGE_KEY_SOLVED = "codolio_solved_questions_v1";
 const STORAGE_KEY_THEME = "codolio_theme_preference";
 const STORAGE_KEY_EXPANDED_TOPICS = "codolio_expanded_topics";
 const STORAGE_KEY_EXPANDED_SUBTOPICS = "codolio_expanded_subtopics";
-
-function getInitialSolved(): Record<string, boolean> {
-  try {
-    const saved = localStorage.getItem(STORAGE_KEY_SOLVED);
-    return saved ? JSON.parse(saved) : {};
-  } catch {
-    return {};
-  }
-}
 
 function getInitialTheme(): boolean {
   try {
@@ -127,9 +108,7 @@ export const useUIStore = create<UIState>((set, get) => {
     expandedSubTopics: getInitialExpandedSubTopics(),
     searchQuery: "",
     difficultyFilter: "ALL",
-    solvedFilter: "ALL",
     platformFilter: "ALL",
-    solvedQuestions: getInitialSolved(),
     isDarkMode: initialDark,
     activeModal: null,
     modalPayload: null,
@@ -219,33 +198,13 @@ export const useUIStore = create<UIState>((set, get) => {
 
     setSearchQuery: (searchQuery: string) => set({ searchQuery }),
     setDifficultyFilter: (difficultyFilter: DifficultyFilter) => set({ difficultyFilter }),
-    setSolvedFilter: (solvedFilter: SolvedFilter) => set({ solvedFilter }),
     setPlatformFilter: (platformFilter: string) => set({ platformFilter }),
     resetFilters: () =>
       set({
         searchQuery: "",
         difficultyFilter: "ALL",
-        solvedFilter: "ALL",
         platformFilter: "ALL",
       }),
-
-    toggleQuestionSolved: (questionId: string) => {
-      const current = get().solvedQuestions;
-      const updated = {
-        ...current,
-        [questionId]: !current[questionId],
-      };
-      try {
-        localStorage.setItem(STORAGE_KEY_SOLVED, JSON.stringify(updated));
-      } catch {
-        // ignore
-      }
-      set({ solvedQuestions: updated });
-    },
-
-    isQuestionSolved: (questionId: string) => {
-      return Boolean(get().solvedQuestions[questionId]);
-    },
 
     toggleDarkMode: () => {
       const nextMode = !get().isDarkMode;
@@ -286,4 +245,3 @@ export const useUIStore = create<UIState>((set, get) => {
     closeModal: () => set({ activeModal: null, modalPayload: null }),
   };
 });
-

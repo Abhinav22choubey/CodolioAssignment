@@ -106,7 +106,7 @@ const CreateQuestionForm = ({
             if (titleError) setTitleError("");
           }}
           placeholder="e.g. Trapping Rain Water"
-          className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800/80 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm transition-all"
+          className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800/80 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-sm transition-all"
         />
         {titleError && <p className="mt-1.5 text-xs text-rose-500 font-medium">{titleError}</p>}
       </div>
@@ -123,7 +123,7 @@ const CreateQuestionForm = ({
             id="create-q-diff"
             value={difficulty}
             onChange={(e) => setDifficulty(e.target.value)}
-            className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800/80 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm transition-all"
+            className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800/80 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-sm transition-all"
           >
             <option value="Easy">Easy</option>
             <option value="Medium">Medium</option>
@@ -144,7 +144,7 @@ const CreateQuestionForm = ({
             value={platform}
             onChange={(e) => setPlatform(e.target.value)}
             placeholder="e.g. leetcode, codestudio, gfg"
-            className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800/80 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm transition-all"
+            className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800/80 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-sm transition-all"
           />
         </div>
       </div>
@@ -154,7 +154,7 @@ const CreateQuestionForm = ({
           htmlFor="create-q-url"
           className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5"
         >
-          <ExternalLink className="w-3.5 h-3.5" />
+          <ExternalLink className="w-3.5 h-3.5 text-orange-500" />
           Problem URL
         </label>
         <input
@@ -166,7 +166,7 @@ const CreateQuestionForm = ({
             if (urlError) setUrlError("");
           }}
           placeholder="https://leetcode.com/problems/..."
-          className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800/80 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm transition-all"
+          className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800/80 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-sm transition-all"
         />
       </div>
 
@@ -175,7 +175,7 @@ const CreateQuestionForm = ({
           htmlFor="create-q-resource"
           className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5"
         >
-          <Video className="w-3.5 h-3.5" />
+          <Video className="w-3.5 h-3.5 text-rose-500" />
           Resource / Solution Video URL
         </label>
         <input
@@ -187,7 +187,7 @@ const CreateQuestionForm = ({
             if (urlError) setUrlError("");
           }}
           placeholder="https://youtu.be/..."
-          className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800/80 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm transition-all"
+          className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800/80 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-sm transition-all"
         />
         {urlError && <p className="mt-1.5 text-xs text-rose-500 font-medium">{urlError}</p>}
       </div>
@@ -203,7 +203,7 @@ const CreateQuestionForm = ({
         <button
           type="submit"
           disabled={createQuestionMutation.isPending}
-          className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 rounded-lg shadow-sm transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50"
+          className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-orange-500 hover:bg-orange-600 active:bg-orange-700 rounded-lg shadow-sm shadow-orange-500/20 transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 disabled:opacity-50"
         >
           {createQuestionMutation.isPending && <Loader2 className="w-4 h-4 animate-spin" />}
           Add Question
@@ -291,7 +291,7 @@ const EditQuestionForm = ({
             setTitle(e.target.value);
             if (titleError) setTitleError("");
           }}
-          className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800/80 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm transition-all"
+          className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800/80 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-sm transition-all"
         />
         {titleError && <p className="mt-1.5 text-xs text-rose-500 font-medium">{titleError}</p>}
       </div>
@@ -308,7 +308,7 @@ const EditQuestionForm = ({
             id="edit-q-diff"
             value={difficulty}
             onChange={(e) => setDifficulty(e.target.value)}
-            className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800/80 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm transition-all"
+            className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800/80 text-slate-900 dark:text-white focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-sm transition-all"
           >
             <option value="Easy">Easy</option>
             <option value="Medium">Medium</option>
@@ -328,7 +328,7 @@ const EditQuestionForm = ({
             type="text"
             value={platform}
             onChange={(e) => setPlatform(e.target.value)}
-            className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800/80 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm transition-all"
+            className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800/80 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-sm transition-all"
           />
         </div>
       </div>
@@ -338,7 +338,7 @@ const EditQuestionForm = ({
           htmlFor="edit-q-url"
           className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5"
         >
-          <ExternalLink className="w-3.5 h-3.5" />
+          <ExternalLink className="w-3.5 h-3.5 text-orange-500" />
           Problem URL
         </label>
         <input
@@ -349,7 +349,7 @@ const EditQuestionForm = ({
             setProblemUrl(e.target.value);
             if (urlError) setUrlError("");
           }}
-          className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800/80 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm transition-all"
+          className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800/80 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-sm transition-all"
         />
       </div>
 
@@ -358,7 +358,7 @@ const EditQuestionForm = ({
           htmlFor="edit-q-resource"
           className="flex items-center gap-1.5 text-xs font-semibold uppercase tracking-wider text-slate-600 dark:text-slate-400 mb-1.5"
         >
-          <Video className="w-3.5 h-3.5" />
+          <Video className="w-3.5 h-3.5 text-rose-500" />
           Resource / Solution Video URL
         </label>
         <input
@@ -369,7 +369,7 @@ const EditQuestionForm = ({
             setResource(e.target.value);
             if (urlError) setUrlError("");
           }}
-          className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800/80 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm transition-all"
+          className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800/80 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-sm transition-all"
         />
         {urlError && <p className="mt-1.5 text-xs text-rose-500 font-medium">{urlError}</p>}
       </div>
@@ -385,7 +385,7 @@ const EditQuestionForm = ({
         <button
           type="submit"
           disabled={updateQuestionMutation.isPending}
-          className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 rounded-lg shadow-sm transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50"
+          className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-orange-500 hover:bg-orange-600 active:bg-orange-700 rounded-lg shadow-sm shadow-orange-500/20 transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 disabled:opacity-50"
         >
           {updateQuestionMutation.isPending && <Loader2 className="w-4 h-4 animate-spin" />}
           Save Changes
@@ -469,4 +469,3 @@ export const QuestionModals = () => {
     </>
   );
 };
-

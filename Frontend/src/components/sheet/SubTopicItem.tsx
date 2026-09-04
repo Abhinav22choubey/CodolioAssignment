@@ -20,6 +20,7 @@ import {
   Pencil,
   Trash2,
   FolderOpen,
+  HelpCircle,
 } from "lucide-react";
 import { toast } from "sonner";
 import type { AxiosError } from "axios";
@@ -50,10 +51,8 @@ export const SubTopicItem = ({
     expandedSubTopics,
     toggleSubTopic,
     openModal,
-    isQuestionSolved,
     searchQuery,
     difficultyFilter,
-    solvedFilter,
     platformFilter,
   } = useUIStore();
 
@@ -63,7 +62,6 @@ export const SubTopicItem = ({
   const isFilterActive =
     searchQuery.trim() !== "" ||
     difficultyFilter !== "ALL" ||
-    solvedFilter !== "ALL" ||
     platformFilter !== "ALL";
 
   const isExpanded = isFilterActive ? true : Boolean(expandedSubTopics[subTopic.id]);
@@ -142,8 +140,6 @@ export const SubTopicItem = ({
     );
   };
 
-  // Calculate solved stats for this subtopic
-  const solvedCount = allQuestions.filter((q) => isQuestionSolved(q.id)).length;
   const totalCount = allQuestions.length;
 
   return (
@@ -167,7 +163,7 @@ export const SubTopicItem = ({
           >
             <ChevronRight
               className={`w-4 h-4 transition-transform duration-200 ${
-                isExpanded ? "rotate-90 text-indigo-600 dark:text-indigo-400" : ""
+                isExpanded ? "rotate-90 text-orange-500" : ""
               }`}
             />
           </button>
@@ -176,15 +172,16 @@ export const SubTopicItem = ({
           <button
             type="button"
             onClick={() => toggleSubTopic(subTopic.id)}
-            className="flex items-center gap-2 text-left font-medium text-slate-800 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-400 text-sm truncate"
+            className="flex items-center gap-2 text-left font-medium text-slate-800 dark:text-slate-200 hover:text-orange-600 dark:hover:text-orange-400 text-sm truncate"
           >
-            <FolderOpen className="w-4 h-4 text-slate-400 shrink-0" />
+            <FolderOpen className="w-4 h-4 text-orange-400 shrink-0" />
             <span className="truncate">{subTopic.title}</span>
           </button>
 
-          {/* Solved Progress Pill */}
-          <span className="hidden sm:inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-medium bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 shrink-0">
-            {solvedCount}/{totalCount} solved
+          {/* Questions Count Pill */}
+          <span className="hidden sm:inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-[11px] font-medium bg-white dark:bg-slate-800 border border-slate-200 dark:border-slate-700 text-slate-600 dark:text-slate-300 shrink-0">
+            <HelpCircle className="w-3 h-3 text-slate-400" />
+            {totalCount} {totalCount === 1 ? "question" : "questions"}
           </span>
         </div>
 
@@ -199,7 +196,7 @@ export const SubTopicItem = ({
                 topicId,
               })
             }
-            className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-medium bg-white dark:bg-slate-800 text-indigo-600 dark:text-indigo-400 hover:bg-indigo-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 transition-colors shadow-2xs"
+            className="inline-flex items-center gap-1 px-2.5 py-1 rounded-md text-xs font-medium bg-white dark:bg-slate-800 text-orange-600 dark:text-orange-400 hover:bg-orange-50 dark:hover:bg-slate-700 border border-slate-200 dark:border-slate-700 transition-colors shadow-2xs"
           >
             <Plus className="w-3.5 h-3.5" />
             <span className="hidden sm:inline">Add Question</span>
@@ -209,7 +206,7 @@ export const SubTopicItem = ({
             type="button"
             onClick={() => openModal("edit-subtopic", { subTopic, topicId })}
             aria-label={`Edit ${subTopic.title}`}
-            className="p-1.5 rounded-md text-slate-400 hover:text-indigo-600 dark:hover:text-indigo-400 hover:bg-white dark:hover:bg-slate-800 transition-colors"
+            className="p-1.5 rounded-md text-slate-400 hover:text-orange-600 dark:hover:text-orange-400 hover:bg-white dark:hover:bg-slate-800 transition-colors"
           >
             <Pencil className="w-3.5 h-3.5" />
           </button>
@@ -242,7 +239,7 @@ export const SubTopicItem = ({
                         topicId,
                       })
                     }
-                    className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 transition-colors"
+                    className="inline-flex items-center gap-1.5 px-3 py-1.5 text-xs font-semibold rounded-lg bg-orange-500 text-white hover:bg-orange-600 transition-colors"
                   >
                     <Plus className="w-3.5 h-3.5" />
                     Add First Question
@@ -271,4 +268,3 @@ export const SubTopicItem = ({
     </div>
   );
 };
-

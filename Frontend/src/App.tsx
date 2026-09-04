@@ -1,9 +1,7 @@
-import React from 'react'
 import { useRef, useMemo } from "react";
 import { AlertCircle, RefreshCw } from "lucide-react";
 import type { AxiosError } from "axios";
 import { useTopics } from "./hooks/useTopics";
-import { useUIStore } from "./store/uiStore";
 import { AppLayout } from "./components/layout/AppLayout";
 import { Header } from "./components/layout/Header";
 import { SheetHeader } from "./components/sheet/SheetHeader";
@@ -18,25 +16,37 @@ import { TopicModals } from "./components/topic/TopicModals";
 import { SubTopicModals } from "./components/subtopic/SubTopicModals";
 import { QuestionModals } from "./components/question/QuestionModals";
 
-const App = () => {
 export default function App() {
   const { data: topics = [], isLoading, isError, error, refetch } = useTopics();
-  const { isQuestionSolved } = useUIStore();
   const searchInputRef = useRef<HTMLInputElement>(null);
 
-  // Compute live sheet statistics
-  const { totalQuestions, solvedQuestions, availablePlatforms } = useMemo(() => {
+  // Compute live admin statistics
+  const {
+    totalSubTopics,
+    totalQuestions,
+    easyCount,
+    mediumCount,
+    hardCount,
+    availablePlatforms,
+  } = useMemo(() => {
+    let subCount = 0;
     let qCount = 0;
-    let sCount = 0;
+    let easy = 0;
+    let med = 0;
+    let hard = 0;
     const platforms = new Set<string>();
 
     topics.forEach((topic) => {
-      (topic.subTopics || []).forEach((sub) => {
+      const subs = topic.subTopics || [];
+      subCount += subs.length;
+      subs.forEach((sub) => {
         (sub.questions || []).forEach((q) => {
           qCount++;
-          if (isQuestionSolved(q.id)) {
-            sCount++;
-          }
+          const diff = (q.difficulty || "").trim().toLowerCase();
+          if (diff === "easy") easy++;
+          else if (diff === "medium") med++;
+          else if (diff === "hard") hard++;
+
           if (q.platform && q.platform.trim()) {
             platforms.add(q.platform.trim().toLowerCase());
           }
@@ -45,11 +55,14 @@ export default function App() {
     });
 
     return {
+      totalSubTopics: subCount,
       totalQuestions: qCount,
-      solvedQuestions: sCount,
+      easyCount: easy,
+      mediumCount: med,
+      hardCount: hard,
       availablePlatforms: Array.from(platforms).sort(),
     };
-  }, [topics, isQuestionSolved]);
+  }, [topics]);
 
   const handleSearchFocus = () => {
     searchInputRef.current?.focus();
@@ -65,15 +78,11 @@ export default function App() {
   };
 
   return (
-    <div className="bg-blue-500 min-h-screen min-w-full">
-      HII
-    </div>
-  )
     <AppLayout>
       {/* Top Navigation Bar */}
       <Header
         totalQuestions={totalQuestions}
-        solvedCount={solvedQuestions}
+        totalTopics={topics.length}
         onSearchFocus={handleSearchFocus}
       />
 
@@ -100,7 +109,7 @@ export default function App() {
             <button
               type="button"
               onClick={() => refetch()}
-              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 shadow-md transition-colors"
+              className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold text-white bg-orange-500 hover:bg-orange-600 shadow-md transition-colors"
             >
               <RefreshCw className="w-4 h-4" />
               Retry Fetching
@@ -110,8 +119,11 @@ export default function App() {
           <>
             <SheetStats
               totalTopics={topics.length}
+              totalSubTopics={totalSubTopics}
               totalQuestions={totalQuestions}
-              solvedQuestions={solvedQuestions}
+              easyCount={easyCount}
+              mediumCount={mediumCount}
+              hardCount={hardCount}
             />
 
             <SheetFilterBar
@@ -132,5 +144,3 @@ export default function App() {
     </AppLayout>
   );
 }
-
-export default App

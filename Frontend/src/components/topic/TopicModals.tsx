@@ -69,7 +69,7 @@ const CreateTopicForm = ({ onSuccess, onCancel }: CreateTopicFormProps) => {
             if (error) setError("");
           }}
           placeholder="e.g. Binary Search Trees"
-          className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800/80 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm transition-all"
+          className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800/80 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-sm transition-all"
         />
         {error && <p className="mt-1.5 text-xs text-rose-500 font-medium">{error}</p>}
       </div>
@@ -85,7 +85,7 @@ const CreateTopicForm = ({ onSuccess, onCancel }: CreateTopicFormProps) => {
         <button
           type="submit"
           disabled={createTopicMutation.isPending}
-          className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 rounded-lg shadow-sm transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50"
+          className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-orange-500 hover:bg-orange-600 active:bg-orange-700 rounded-lg shadow-sm shadow-orange-500/20 transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 disabled:opacity-50"
         >
           {createTopicMutation.isPending && <Loader2 className="w-4 h-4 animate-spin" />}
           Create Topic
@@ -150,7 +150,7 @@ const EditTopicForm = ({ topic, onSuccess, onCancel }: EditTopicFormProps) => {
             setTitle(e.target.value);
             if (error) setError("");
           }}
-          className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800/80 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 text-sm transition-all"
+          className="w-full px-3.5 py-2.5 rounded-lg border border-slate-300 dark:border-slate-700 bg-white dark:bg-slate-800/80 text-slate-900 dark:text-white placeholder-slate-400 focus:outline-none focus:ring-2 focus:ring-orange-500 focus:border-orange-500 text-sm transition-all"
         />
         {error && <p className="mt-1.5 text-xs text-rose-500 font-medium">{error}</p>}
       </div>
@@ -166,7 +166,7 @@ const EditTopicForm = ({ topic, onSuccess, onCancel }: EditTopicFormProps) => {
         <button
           type="submit"
           disabled={updateTopicMutation.isPending}
-          className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 rounded-lg shadow-sm transition-colors focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2 disabled:opacity-50"
+          className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-orange-500 hover:bg-orange-600 active:bg-orange-700 rounded-lg shadow-sm shadow-orange-500/20 transition-colors focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2 disabled:opacity-50"
         >
           {updateTopicMutation.isPending && <Loader2 className="w-4 h-4 animate-spin" />}
           Save Changes
@@ -205,7 +205,7 @@ export const TopicModals = () => {
         isOpen={isCreateOpen}
         onClose={closeModal}
         title="Create New Topic"
-        description="Add a top-level category for your problem tracker (e.g. Dynamic Programming, Graphs)."
+        description="Add a top-level category for your problem curriculum (e.g. Dynamic Programming, Graphs)."
       >
         {isCreateOpen && (
           <CreateTopicForm onSuccess={closeModal} onCancel={closeModal} />
@@ -242,4 +242,3 @@ export const TopicModals = () => {
     </>
   );
 };
-

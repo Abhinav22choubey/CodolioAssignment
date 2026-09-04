@@ -1,6 +1,66 @@
 {
   "topics": [
     {
+      "id": "topic-arrays-part-iii",
+      "title": "Arrays Part-v",
+      "subTopics": [
+        {
+          "id": "subtopic-arrays-part-iii-general",
+          "title": "General",
+          "questions": [
+            {
+              "id": "66e769be8a15c1adcdf77a80",
+              "title": "Majority Element (>n/2 times)",
+              "difficulty": "Easy",
+              "platform": "leetcode",
+              "problemUrl": "https://leetcode.com/problems/majority-element",
+              "resource": "https://youtu.be/nP_ns3uSh80"
+            },
+            {
+              "id": "66e769be8a15c1adcdf77a78",
+              "title": "Search in a 2 D matrix",
+              "difficulty": "Medium",
+              "platform": "leetcode",
+              "problemUrl": "https://leetcode.com/problems/search-a-2d-matrix",
+              "resource": "https://youtu.be/JXU4Akft7yk"
+            },
+            {
+              "id": "66e769be8a15c1adcdf77a84",
+              "title": "Majority Element (n/3 times)",
+              "difficulty": "Medium",
+              "platform": "leetcode",
+              "problemUrl": "https://leetcode.com/problems/majority-element-ii",
+              "resource": "https://youtu.be/vwZj1K0e9U8"
+            },
+            {
+              "id": "66e769be8a15c1adcdf77a88",
+              "title": "Grid Unique Paths",
+              "difficulty": "Medium",
+              "platform": "leetcode",
+              "problemUrl": "https://leetcode.com/problems/unique-paths",
+              "resource": "https://youtu.be/t_f0nwwdg5o"
+            },
+            {
+              "id": "66e769be8a15c1adcdf77a8c",
+              "title": "Reverse Pairs (Leetcode)",
+              "difficulty": "Hard",
+              "platform": "leetcode",
+              "problemUrl": "https://leetcode.com/problems/reverse-pairs",
+              "resource": "https://youtu.be/0e4bZaP3MDI"
+            },
+            {
+              "id": "66e769be8a15c1adcdf77a7c",
+              "title": "Pow(x, n)",
+              "difficulty": "Medium",
+              "platform": "leetcode",
+              "problemUrl": "https://leetcode.com/problems/powx-n",
+              "resource": "https://youtu.be/l0YC3876qxg"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "id": "topic-arrays-part-ii",
       "title": "Arrays Part-II",
       "subTopics": [
@@ -47,66 +107,6 @@
               "platform": "tuf",
               "problemUrl": "https://takeuforward.org/plus/dsa/problems/count-inversions",
               "resource": "https://youtu.be/AseUmwVNaoY"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "topic-arrays-part-iii",
-      "title": "Arrays Part-III",
-      "subTopics": [
-        {
-          "id": "subtopic-arrays-part-iii-general",
-          "title": "General",
-          "questions": [
-            {
-              "id": "66e769be8a15c1adcdf77a78",
-              "title": "Search in a 2 D matrix",
-              "difficulty": "Medium",
-              "platform": "leetcode",
-              "problemUrl": "https://leetcode.com/problems/search-a-2d-matrix",
-              "resource": "https://youtu.be/JXU4Akft7yk"
-            },
-            {
-              "id": "66e769be8a15c1adcdf77a7c",
-              "title": "Pow(x, n)",
-              "difficulty": "Medium",
-              "platform": "leetcode",
-              "problemUrl": "https://leetcode.com/problems/powx-n",
-              "resource": "https://youtu.be/l0YC3876qxg"
-            },
-            {
-              "id": "66e769be8a15c1adcdf77a80",
-              "title": "Majority Element (>n/2 times)",
-              "difficulty": "Easy",
-              "platform": "leetcode",
-              "problemUrl": "https://leetcode.com/problems/majority-element",
-              "resource": "https://youtu.be/nP_ns3uSh80"
-            },
-            {
-              "id": "66e769be8a15c1adcdf77a84",
-              "title": "Majority Element (n/3 times)",
-              "difficulty": "Medium",
-              "platform": "leetcode",
-              "problemUrl": "https://leetcode.com/problems/majority-element-ii",
-              "resource": "https://youtu.be/vwZj1K0e9U8"
-            },
-            {
-              "id": "66e769be8a15c1adcdf77a88",
-              "title": "Grid Unique Paths",
-              "difficulty": "Medium",
-              "platform": "leetcode",
-              "problemUrl": "https://leetcode.com/problems/unique-paths",
-              "resource": "https://youtu.be/t_f0nwwdg5o"
-            },
-            {
-              "id": "66e769be8a15c1adcdf77a8c",
-              "title": "Reverse Pairs (Leetcode)",
-              "difficulty": "Hard",
-              "platform": "leetcode",
-              "problemUrl": "https://leetcode.com/problems/reverse-pairs",
-              "resource": "https://youtu.be/0e4bZaP3MDI"
             }
           ]
         }
@@ -657,6 +657,11 @@
               "resource": "https://www.youtube.com/watch?v=WjpswYrS2nY&list=PLgUwDviBIf0p4ozDR_kJJkONnb1wdx2Ma&index=62"
             }
           ]
+        },
+        {
+          "id": "subtopic-7f0b0bdf-1507-4cb4-8b63-cdf1af5096a4",
+          "title": "new topic",
+          "questions": []
         }
       ]
     },
@@ -782,6 +787,66 @@
               "difficulty": "Medium",
               "platform": "tuf",
               "problemUrl": "https://takeuforward.org/plus/dsa/problems/sort-a-stack",
+              "resource": null
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "id": "topic-string-part-ii",
+      "title": "String Part-II",
+      "subTopics": [
+        {
+          "id": "subtopic-string-part-ii-general",
+          "title": "General",
+          "questions": [
+            {
+              "id": "66e769bf8a15c1adcdf77bbd",
+              "title": "Minimum characters needed to be inserted in the beginning to make it palindromic",
+              "difficulty": "Medium",
+              "platform": "interviewbit",
+              "problemUrl": "https://www.interviewbit.com/problems/minimum-characters-required-to-make-a-string-palindromic",
+              "resource": null
+            },
+            {
+              "id": "66e769bf8a15c1adcdf77bc1",
+              "title": "Check for Anagrams",
+              "difficulty": "Easy",
+              "platform": "leetcode",
+              "problemUrl": "https://leetcode.com/problems/valid-anagram",
+              "resource": null
+            },
+            {
+              "id": "66e769bf8a15c1adcdf77bc5",
+              "title": "Count and say",
+              "difficulty": "Medium",
+              "platform": "leetcode",
+              "problemUrl": "https://leetcode.com/problems/count-and-say",
+              "resource": null
+            },
+            {
+              "id": "66e769bf8a15c1adcdf77bc9",
+              "title": "Compare version numbers",
+              "difficulty": "Medium",
+              "platform": "leetcode",
+              "problemUrl": "https://leetcode.com/problems/compare-version-numbers",
+              "resource": null
+            },
+            {
+              "id": "66e7713b8a15c1adcdf78530",
+              "title": "Z-Function",
+              "difficulty": "Easy",
+              "platform": "leetcode",
+              "problemUrl": "https://leetcode.com/problems/find-the-index-of-the-first-occurrence-in-a-string",
+              "resource": null
+            },
+            {
+              "id": "66e7713b8a15c1adcdf78534",
+              "title": "KMP algo / LPS(pi) array",
+              "difficulty": "Easy",
+              "platform": "leetcode",
+              "problemUrl": "https://leetcode.com/problems/find-the-index-of-the-first-occurrence-in-a-string",
               "resource": null
             }
           ]
@@ -941,66 +1006,6 @@
       ]
     },
     {
-      "id": "topic-string-part-ii",
-      "title": "String Part-II",
-      "subTopics": [
-        {
-          "id": "subtopic-string-part-ii-general",
-          "title": "General",
-          "questions": [
-            {
-              "id": "66e769bf8a15c1adcdf77bbd",
-              "title": "Minimum characters needed to be inserted in the beginning to make it palindromic",
-              "difficulty": "Medium",
-              "platform": "interviewbit",
-              "problemUrl": "https://www.interviewbit.com/problems/minimum-characters-required-to-make-a-string-palindromic",
-              "resource": null
-            },
-            {
-              "id": "66e769bf8a15c1adcdf77bc1",
-              "title": "Check for Anagrams",
-              "difficulty": "Easy",
-              "platform": "leetcode",
-              "problemUrl": "https://leetcode.com/problems/valid-anagram",
-              "resource": null
-            },
-            {
-              "id": "66e769bf8a15c1adcdf77bc5",
-              "title": "Count and say",
-              "difficulty": "Medium",
-              "platform": "leetcode",
-              "problemUrl": "https://leetcode.com/problems/count-and-say",
-              "resource": null
-            },
-            {
-              "id": "66e769bf8a15c1adcdf77bc9",
-              "title": "Compare version numbers",
-              "difficulty": "Medium",
-              "platform": "leetcode",
-              "problemUrl": "https://leetcode.com/problems/compare-version-numbers",
-              "resource": null
-            },
-            {
-              "id": "66e7713b8a15c1adcdf78530",
-              "title": "Z-Function",
-              "difficulty": "Easy",
-              "platform": "leetcode",
-              "problemUrl": "https://leetcode.com/problems/find-the-index-of-the-first-occurrence-in-a-string",
-              "resource": null
-            },
-            {
-              "id": "66e7713b8a15c1adcdf78534",
-              "title": "KMP algo / LPS(pi) array",
-              "difficulty": "Easy",
-              "platform": "leetcode",
-              "problemUrl": "https://leetcode.com/problems/find-the-index-of-the-first-occurrence-in-a-string",
-              "resource": null
-            }
-          ]
-        }
-      ]
-    },
-    {
       "id": "topic-binary-tree",
       "title": "Binary Tree",
       "subTopics": [
@@ -1008,14 +1013,6 @@
           "id": "subtopic-binary-tree-general",
           "title": "General",
           "questions": [
-            {
-              "id": "66e769bf8a15c1adcdf77bcd",
-              "title": "Inorder Traversal",
-              "difficulty": "Easy",
-              "platform": "leetcode",
-              "problemUrl": "https://leetcode.com/problems/binary-tree-inorder-traversal",
-              "resource": "https://www.youtube.com/watch?v=Z_NEgBgbRVI&list=PLgUwDviBIf0q8Hkd7bK2Bpryj2xVJk8Vk&index=7"
-            },
             {
               "id": "66e769bf8a15c1adcdf77bd1",
               "title": "Preorder Traversal",
@@ -1055,6 +1052,14 @@
               "platform": "tuf",
               "problemUrl": "https://takeuforward.org/plus/dsa/problems/bottom-view-of-bt",
               "resource": "https://youtu.be/0FtVY6I4pB8"
+            },
+            {
+              "id": "66e769bf8a15c1adcdf77bcd",
+              "title": "Inorder Traversal",
+              "difficulty": "Easy",
+              "platform": "leetcode",
+              "problemUrl": "https://leetcode.com/problems/binary-tree-inorder-traversal",
+              "resource": "https://www.youtube.com/watch?v=Z_NEgBgbRVI&list=PLgUwDviBIf0q8Hkd7bK2Bpryj2xVJk8Vk&index=7"
             },
             {
               "id": "66e769bf8a15c1adcdf77be5",
@@ -1839,26 +1844,6 @@
               "platform": "leetcode",
               "problemUrl": "https://leetcode.com/problems/maximum-xor-with-an-element-from-array",
               "resource": "https://www.youtube.com/watch?v=Q8LhG9Pi5KM&list=PLgUwDviBIf0pcIDCZnxhv0LkHf5KzG9zp&index=7"
-            }
-          ]
-        }
-      ]
-    },
-    {
-      "id": "topic-7e53549d-d720-446d-9122-d1771919b032",
-      "title": "B Tree",
-      "subTopics": [
-        {
-          "id": "subtopic-3e4f4863-1e7f-4120-9a19-c0f5bed51a06",
-          "title": "New",
-          "questions": [
-            {
-              "id": "question-ad1d583f-967b-4420-9d6b-fe6fe491d2f4",
-              "title": "Trapping Rain water",
-              "difficulty": "Hard",
-              "platform": "gfg",
-              "problemUrl": "https://docs.google.com/document/d/1Nq-MwAVsXnaKYqKJ6B80xAbd03jFjh9T5_FrXoWoQuE/edit?tab=t.0",
-              "resource": null
             }
           ]
         }

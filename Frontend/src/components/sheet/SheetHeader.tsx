@@ -11,14 +11,14 @@ export const SheetHeader = () => {
           <h1 className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white tracking-tight">
             Striver's SDE Sheet
           </h1>
-          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-indigo-500/10 text-indigo-600 dark:text-indigo-400 border border-indigo-500/20">
-            <Sparkles className="w-3 h-3" />
-            Most Popular
+          <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-orange-500/10 text-orange-600 dark:text-orange-400 border border-orange-500/20">
+            <Sparkles className="w-3 h-3 text-orange-500" />
+            Curated Curriculum
           </span>
         </div>
         <p className="text-sm text-slate-600 dark:text-slate-400 max-w-2xl leading-relaxed">
-          Practice and master your Data Structures & Algorithms coding questions.
-          Organize hierarchical topics, track your solved problems, and reorder items seamlessly.
+          Curate, organize, and manage coding questions across hierarchical topics and sub-topics.
+          Reorder problems via intuitive drag-and-drop, update platform links, and customize study tracks.
         </p>
       </div>
 
@@ -26,7 +26,7 @@ export const SheetHeader = () => {
         <button
           type="button"
           onClick={() => openModal("create-topic")}
-          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold text-white bg-indigo-600 hover:bg-indigo-700 active:bg-indigo-800 shadow-md shadow-indigo-600/20 hover:shadow-indigo-600/30 transition-all focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+          className="inline-flex items-center gap-2 px-4 py-2.5 rounded-xl text-sm font-semibold text-white bg-orange-500 hover:bg-orange-600 active:bg-orange-700 shadow-md shadow-orange-500/25 hover:shadow-orange-500/35 transition-all focus:outline-none focus:ring-2 focus:ring-orange-500 focus:ring-offset-2"
         >
           <Plus className="w-4 h-4" />
           <span>Add Topic</span>
@@ -35,4 +35,3 @@ export const SheetHeader = () => {
     </div>
   );
 };
-

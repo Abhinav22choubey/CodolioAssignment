@@ -45,9 +45,7 @@ export const Sheet = ({ topics }: SheetProps) => {
   const {
     searchQuery,
     difficultyFilter,
-    solvedFilter,
     platformFilter,
-    isQuestionSolved,
     resetFilters,
     openModal,
   } = useUIStore();
@@ -93,7 +91,6 @@ export const Sheet = ({ topics }: SheetProps) => {
   const isFilterActive =
     searchQuery.trim() !== "" ||
     difficultyFilter !== "ALL" ||
-    solvedFilter !== "ALL" ||
     platformFilter !== "ALL";
 
   // Filtered dataset computation
@@ -140,14 +137,7 @@ export const Sheet = ({ topics }: SheetProps) => {
             }
           }
 
-          // 3. Solved Filter
-          if (solvedFilter !== "ALL") {
-            const isSolved = isQuestionSolved(question.id);
-            if (solvedFilter === "SOLVED" && !isSolved) return false;
-            if (solvedFilter === "UNSOLVED" && isSolved) return false;
-          }
-
-          // 4. Platform Filter
+          // 3. Platform Filter
           if (platformFilter !== "ALL") {
             if (!question.platform || question.platform.toLowerCase() !== platformFilter.toLowerCase()) {
               return false;
@@ -163,7 +153,7 @@ export const Sheet = ({ topics }: SheetProps) => {
             subTopic,
             filteredQuestions: matchingQuestions,
           });
-        } else if (subTopicMatches && difficultyFilter === "ALL" && solvedFilter === "ALL" && platformFilter === "ALL") {
+        } else if (subTopicMatches && difficultyFilter === "ALL" && platformFilter === "ALL") {
           matchingSubTopics.push({
             subTopic,
             filteredQuestions: subTopic.questions || [],
@@ -176,7 +166,7 @@ export const Sheet = ({ topics }: SheetProps) => {
           topic,
           filteredSubTopics: matchingSubTopics,
         });
-      } else if (topicMatches && difficultyFilter === "ALL" && solvedFilter === "ALL" && platformFilter === "ALL") {
+      } else if (topicMatches && difficultyFilter === "ALL" && platformFilter === "ALL") {
         results.push({
           topic,
           filteredSubTopics: (topic.subTopics || []).map((sub) => ({
@@ -193,9 +183,7 @@ export const Sheet = ({ topics }: SheetProps) => {
     isFilterActive,
     searchQuery,
     difficultyFilter,
-    solvedFilter,
     platformFilter,
-    isQuestionSolved,
   ]);
 
   if (topics.length === 0) {
@@ -206,7 +194,7 @@ export const Sheet = ({ topics }: SheetProps) => {
           <button
             type="button"
             onClick={() => openModal("create-topic")}
-            className="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-xl text-white bg-indigo-600 hover:bg-indigo-700 shadow-md transition-colors"
+            className="inline-flex items-center gap-2 px-4 py-2 text-sm font-semibold rounded-xl text-white bg-orange-500 hover:bg-orange-600 shadow-md transition-colors"
           >
             <Plus className="w-4 h-4" />
             Create Your First Topic
@@ -224,7 +212,7 @@ export const Sheet = ({ topics }: SheetProps) => {
           <button
             type="button"
             onClick={resetFilters}
-            className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-semibold rounded-lg bg-indigo-600 text-white hover:bg-indigo-700 transition-colors shadow-xs"
+            className="inline-flex items-center gap-1.5 px-4 py-2 text-sm font-semibold rounded-lg bg-orange-500 text-white hover:bg-orange-600 transition-colors shadow-xs"
           >
             Reset Filters
           </button>
@@ -257,4 +245,3 @@ export const Sheet = ({ topics }: SheetProps) => {
     </div>
   );
 };
-

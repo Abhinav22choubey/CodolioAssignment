@@ -1,49 +1,55 @@
-import { Layers, HelpCircle, CheckCircle, TrendingUp } from "lucide-react";
+import { Layers, FolderTree, HelpCircle, BarChart3 } from "lucide-react";
 
 interface SheetStatsProps {
   totalTopics: number;
+  totalSubTopics: number;
   totalQuestions: number;
-  solvedQuestions: number;
+  easyCount: number;
+  mediumCount: number;
+  hardCount: number;
 }
 
 export const SheetStats = ({
   totalTopics,
+  totalSubTopics,
   totalQuestions,
-  solvedQuestions,
+  easyCount,
+  mediumCount,
+  hardCount,
 }: SheetStatsProps) => {
-  const percentage =
-    totalQuestions > 0 ? Math.round((solvedQuestions / totalQuestions) * 100) : 0;
-  const remaining = Math.max(0, totalQuestions - solvedQuestions);
+  const easyPct = totalQuestions > 0 ? Math.round((easyCount / totalQuestions) * 100) : 0;
+  const medPct = totalQuestions > 0 ? Math.round((mediumCount / totalQuestions) * 100) : 0;
+  const hardPct = totalQuestions > 0 ? Math.round((hardCount / totalQuestions) * 100) : 0;
 
   const stats = [
     {
       label: "Topics",
       value: totalTopics,
-      subtext: "Categorized DSA areas",
-      icon: <Layers className="w-5 h-5 text-indigo-500" />,
-      bg: "bg-indigo-500/10 dark:bg-indigo-500/15",
+      subtext: "Categorized DSA Domains",
+      icon: <Layers className="w-5 h-5 text-orange-500" />,
+      bg: "bg-orange-500/10 dark:bg-orange-500/15",
     },
     {
-      label: "Questions",
+      label: "Sub-Topics",
+      value: totalSubTopics,
+      subtext: "Pattern and Concept Sub-groups",
+      icon: <FolderTree className="w-5 h-5 text-amber-500" />,
+      bg: "bg-amber-500/10 dark:bg-amber-500/15",
+    },
+    {
+      label: "Total Questions",
       value: totalQuestions,
-      subtext: `${remaining} remaining to solve`,
+      subtext: "Curated Practice Problems",
       icon: <HelpCircle className="w-5 h-5 text-blue-500" />,
       bg: "bg-blue-500/10 dark:bg-blue-500/15",
     },
     {
-      label: "Solved",
-      value: solvedQuestions,
-      subtext: `${totalQuestions > 0 ? ((solvedQuestions / totalQuestions) * 100).toFixed(1) : 0}% completion`,
-      icon: <CheckCircle className="w-5 h-5 text-emerald-500" />,
+      label: "Difficulty Mix",
+      value: `${easyCount}E · ${mediumCount}M · ${hardCount}H`,
+      subtext: `${easyPct}% Easy · ${medPct}% Med · ${hardPct}% Hard`,
+      icon: <BarChart3 className="w-5 h-5 text-emerald-500" />,
       bg: "bg-emerald-500/10 dark:bg-emerald-500/15",
-    },
-    {
-      label: "Overall Progress",
-      value: `${percentage}%`,
-      subtext: `${solvedQuestions} of ${totalQuestions} completed`,
-      icon: <TrendingUp className="w-5 h-5 text-amber-500" />,
-      bg: "bg-amber-500/10 dark:bg-amber-500/15",
-      isProgress: true,
+      isDistribution: true,
     },
   ];
 
@@ -63,7 +69,7 @@ export const SheetStats = ({
             </div>
 
             <div>
-              <div className="text-2xl sm:text-3xl font-bold text-slate-900 dark:text-white">
+              <div className="text-xl sm:text-2xl font-bold text-slate-900 dark:text-white">
                 {stat.value}
               </div>
               <div className="text-xs text-slate-500 dark:text-slate-400 mt-0.5">
@@ -71,11 +77,22 @@ export const SheetStats = ({
               </div>
             </div>
 
-            {stat.isProgress && (
-              <div className="w-full bg-slate-100 dark:bg-slate-800 h-1.5 rounded-full mt-3 overflow-hidden">
+            {stat.isDistribution && totalQuestions > 0 && (
+              <div className="flex w-full h-1.5 rounded-full overflow-hidden mt-3 gap-0.5 bg-slate-100 dark:bg-slate-800">
                 <div
-                  className="h-full bg-gradient-to-r from-emerald-500 to-indigo-500 rounded-full transition-all duration-500 ease-out"
-                  style={{ width: `${Math.min(100, percentage)}%` }}
+                  style={{ width: `${easyPct}%` }}
+                  className="bg-emerald-500 h-full rounded-l-full"
+                  title={`Easy: ${easyCount} (${easyPct}%)`}
+                />
+                <div
+                  style={{ width: `${medPct}%` }}
+                  className="bg-amber-500 h-full"
+                  title={`Medium: ${mediumCount} (${medPct}%)`}
+                />
+                <div
+                  style={{ width: `${hardPct}%` }}
+                  className="bg-rose-500 h-full rounded-r-full"
+                  title={`Hard: ${hardCount} (${hardPct}%)`}
                 />
               </div>
             )}
@@ -85,4 +102,3 @@ export const SheetStats = ({
     </div>
   );
 };
-

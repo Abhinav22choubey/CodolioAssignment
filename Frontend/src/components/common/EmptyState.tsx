@@ -16,7 +16,7 @@ export const EmptyState = ({
 }: EmptyStateProps) => {
   const defaults = {
     topics: {
-      icon: <FolderPlus className="w-10 h-10 text-indigo-500/80" />,
+      icon: <FolderPlus className="w-10 h-10 text-orange-500/80" />,
       title: "No topics yet",
       description: "Create your first topic to start building your interactive question sheet.",
     },
