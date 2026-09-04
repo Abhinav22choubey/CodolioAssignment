@@ -13,7 +13,6 @@ import {
   reorderTopics,
 } from "../api/topics.api";
 
-// GET ALL
 export function useTopics() {
   return useQuery({
     queryKey: ["topics"],
@@ -21,7 +20,6 @@ export function useTopics() {
   });
 }
 
-// GET ONE
 export function useTopic(id: string) {
   return useQuery({
     queryKey: ["topics", id],
@@ -30,13 +28,11 @@ export function useTopic(id: string) {
   });
 }
 
-// CREATE
 export function useCreateTopic() {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: createTopic,
-
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["topics"],
@@ -45,7 +41,6 @@ export function useCreateTopic() {
   });
 }
 
-// UPDATE
 export function useUpdateTopic() {
   const queryClient = useQueryClient();
 
@@ -58,36 +53,52 @@ export function useUpdateTopic() {
       title: string;
     }) => updateTopic(id, title),
 
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["topics"],
-      });
+    onSuccess: (updatedTopic) => {
+      queryClient.setQueryData(
+        ["topics"],
+        (topics: ReturnType<typeof getTopics> extends Promise<infer T> ? T : never) =>
+          topics?.map((topic) =>
+            topic.id === updatedTopic.id
+              ? updatedTopic
+              : topic
+          )
+      );
+
+      queryClient.setQueryData(
+        ["topics", updatedTopic.id],
+        updatedTopic
+      );
     },
   });
 }
 
-// DELETE
 export function useDeleteTopic() {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: deleteTopic,
 
-    onSuccess: () => {
-      queryClient.invalidateQueries({
-        queryKey: ["topics"],
+    onSuccess: (_, deletedId) => {
+      queryClient.setQueryData(
+        ["topics"],
+        (topics: Awaited<ReturnType<typeof getTopics>>) =>
+          topics?.filter(
+            (topic) => topic.id !== deletedId
+          )
+      );
+
+      queryClient.removeQueries({
+        queryKey: ["topics", deletedId],
       });
     },
   });
 }
 
-// REORDER
 export function useReorderTopics() {
   const queryClient = useQueryClient();
 
   return useMutation({
     mutationFn: reorderTopics,
-
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ["topics"],

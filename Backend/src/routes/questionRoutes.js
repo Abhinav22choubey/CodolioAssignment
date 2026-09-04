@@ -7,7 +7,7 @@ const {
   createQuestion,
   updateQuestion,
   deleteQuestion,
-  reorderQuestions
+  reorderQuestions,
 } = require("../controllers/questionController");
 
 router.get(

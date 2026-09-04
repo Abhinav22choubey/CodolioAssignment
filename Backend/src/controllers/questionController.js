@@ -1,199 +1,457 @@
-const {
-  getSheet,
-  saveSheet,
-  findSubTopic,
-  findQuestion
-} = require("../services/sheetService");
+const mongoose = require("mongoose");
+const Question = require("../models/Question");
+const SubTopic = require("../models/SubTopic");
 
-const { generateId } = require("../utils/idGenerator");
 
-// GET /api/subtopics/:subTopicId/questions
-function getQuestions(req, res) {
-  const sheet = getSheet();
+const getQuestions = async (req, res) => {
+  try {
+    const { subTopicId } = req.params;
 
-  const subTopic = findSubTopic(
-    sheet,
-    req.params.subTopicId
-  );
+    if (!mongoose.Types.ObjectId.isValid(subTopicId)) {
+      return res.status(400).json({
+        message: "Invalid subtopic ID",
+      });
+    }
 
-  if (!subTopic) {
-    return res.status(404).json({
-      message: "Subtopic not found"
+    const subTopic = await SubTopic.findById(subTopicId);
+
+    if (!subTopic) {
+      return res.status(404).json({
+        message: "Subtopic not found",
+      });
+    }
+
+    const questions = await Question.find({
+      subTopicId: subTopic._id,
+    })
+      .sort({ order: 1 })
+      .lean();
+
+    return res.status(200).json(
+      questions.map((question) => ({
+        id: question._id.toString(),
+        title: question.title,
+        difficulty: question.difficulty,
+        platform: question.platform || null,
+        problemUrl: question.problemUrl || null,
+        resource: question.resource || null,
+      }))
+    );
+  } catch (error) {
+    console.error("Get questions error:", error);
+
+    return res.status(500).json({
+      message: "Failed to get questions",
+      error: error.message,
     });
   }
+};
 
-  res.json(subTopic.questions);
-}
+const createQuestion = async (req, res) => {
+  try {
+    const { subTopicId } = req.params;
 
-// POST /api/subtopics/:subTopicId/questions
-function createQuestion(req, res) {
-  const sheet = getSheet();
+    const {
+      title,
+      difficulty,
+      platform,
+      problemUrl,
+      resource,
+    } = req.body;
 
-  const subTopic = findSubTopic(
-    sheet,
-    req.params.subTopicId
-  );
+    // Validate subtopic ID
+    if (!mongoose.Types.ObjectId.isValid(subTopicId)) {
+      return res.status(400).json({
+        message: "Invalid subtopic ID",
+      });
+    }
 
-  if (!subTopic) {
-    return res.status(404).json({
-      message: "Subtopic not found"
+    // Find subtopic
+    const subTopic = await SubTopic.findById(subTopicId);
+
+    if (!subTopic) {
+      return res.status(404).json({
+        message: "Subtopic not found",
+      });
+    }
+
+    // Validate title
+    if (!title || typeof title !== "string" || !title.trim()) {
+      return res.status(400).json({
+        message: "Question title is required",
+      });
+    }
+
+    // Validate difficulty
+    if (
+      !difficulty ||
+      typeof difficulty !== "string" ||
+      !difficulty.trim()
+    ) {
+      return res.status(400).json({
+        message: "Question difficulty is required",
+      });
+    }
+
+    // Find the question with the highest order
+    const lastQuestion = await Question.findOne({
+      subTopicId: subTopic._id,
+    }).sort({
+      order: -1,
+    });
+
+    // Start from 1 if there are no questions
+    const questionOrder = lastQuestion
+      ? lastQuestion.order + 1
+      : 1;
+
+    // Create question
+    const question = await Question.create({
+      title: title.trim(),
+      difficulty: difficulty.trim(),
+      platform:
+        typeof platform === "string" ? platform.trim() : "",
+      problemUrl:
+        typeof problemUrl === "string" ? problemUrl.trim() : "",
+      resource:
+        typeof resource === "string" ? resource.trim() : "",
+      subTopicId: subTopic._id,
+      order: questionOrder,
+    });
+
+    return res.status(201).json({
+      id: question._id.toString(),
+      title: question.title,
+      difficulty: question.difficulty,
+      platform: question.platform || null,
+      problemUrl: question.problemUrl || null,
+      resource: question.resource || null,
+    });
+  } catch (error) {
+    console.error("Create question error:", error);
+
+    return res.status(500).json({
+      message: "Failed to create question",
+      error: error.message,
     });
   }
+};
 
-  const {
-    title,
-    difficulty,
-    platform,
-    problemUrl,
-    resource
-  } = req.body;
+const updateQuestion = async (req, res) => {
+  try {
+    const { id } = req.params;
 
-  if (!title || !title.trim()) {
-    return res.status(400).json({
-      message: "Question title is required"
-    });
-  }
+    const {
+      title,
+      difficulty,
+      platform,
+      problemUrl,
+      resource,
+      order,
+    } = req.body;
 
-  const question = {
-    id: generateId("question"),
-    title: title.trim(),
-    difficulty: difficulty || null,
-    platform: platform || null,
-    problemUrl: problemUrl || null,
-    resource: resource || null
-  };
+    // Validate question ID
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({
+        message: "Invalid question ID",
+      });
+    }
 
-  subTopic.questions.push(question);
+    // Find question
+    const question = await Question.findById(id);
 
-  saveSheet(sheet);
+    if (!question) {
+      return res.status(404).json({
+        message: "Question not found",
+      });
+    }
 
-  res.status(201).json(question);
-}
+    const updateData = {};
 
-// PUT /api/questions/:id
-function updateQuestion(req, res) {
-  const sheet = getSheet();
-
-  const question = findQuestion(
-    sheet,
-    req.params.id
-  );
-
-  if (!question) {
-    return res.status(404).json({
-      message: "Question not found"
-    });
-  }
-
-  const {
-    title,
-    difficulty,
-    platform,
-    problemUrl,
-    resource
-  } = req.body;
-
-  if (title !== undefined) {
-    question.title = title.trim();
-  }
-
-  if (difficulty !== undefined) {
-    question.difficulty = difficulty;
-  }
-
-  if (platform !== undefined) {
-    question.platform = platform;
-  }
-
-  if (problemUrl !== undefined) {
-    question.problemUrl = problemUrl;
-  }
-
-  if (resource !== undefined) {
-    question.resource = resource;
-  }
-
-  saveSheet(sheet);
-
-  res.json(question);
-}
-
-// DELETE /api/questions/:id
-function deleteQuestion(req, res) {
-  const sheet = getSheet();
-
-  for (const topic of sheet.topics) {
-    for (const subTopic of topic.subTopics) {
-      const index = subTopic.questions.findIndex(
-        (question) =>
-          question.id === req.params.id
-      );
-
-      if (index !== -1) {
-        const deleted =
-          subTopic.questions.splice(index, 1)[0];
-
-        saveSheet(sheet);
-
-        return res.json({
-          message: "Question deleted",
-          question: deleted
+    // Title
+    if (title !== undefined) {
+      if (
+        typeof title !== "string" ||
+        !title.trim()
+      ) {
+        return res.status(400).json({
+          message: "Question title cannot be empty",
         });
       }
+
+      updateData.title = title.trim();
     }
-  }
 
-  res.status(404).json({
-    message: "Question not found"
-  });
-}
+    // Difficulty
+    if (difficulty !== undefined) {
+      if (
+        typeof difficulty !== "string" ||
+        !difficulty.trim()
+      ) {
+        return res.status(400).json({
+          message: "Question difficulty cannot be empty",
+        });
+      }
 
-// PUT /api/questions/reorder
-function reorderQuestions(req, res) {
-  const sheet = getSheet();
+      updateData.difficulty = difficulty.trim();
+    }
 
-  const {
-    subTopicId,
-    questionIds
-  } = req.body;
+    // Platform
+    if (platform !== undefined) {
+      if (typeof platform !== "string") {
+        return res.status(400).json({
+          message: "Platform must be a string",
+        });
+      }
 
-  const subTopic = findSubTopic(
-    sheet,
-    subTopicId
-  );
+      updateData.platform = platform.trim();
+    }
 
-  if (!subTopic) {
-    return res.status(404).json({
-      message: "Subtopic not found"
+    // Problem URL
+    if (problemUrl !== undefined) {
+      if (typeof problemUrl !== "string") {
+        return res.status(400).json({
+          message: "Problem URL must be a string",
+        });
+      }
+
+      updateData.problemUrl = problemUrl.trim();
+    }
+
+    // Order
+    if (order !== undefined) {
+      if (
+        typeof order !== "number" ||
+        !Number.isInteger(order) ||
+        order < 1
+      ) {
+        return res.status(400).json({
+          message: "Order must be a positive integer",
+        });
+      }
+
+      updateData.order = order;
+    }
+
+    const updatedQuestion = await Question.findByIdAndUpdate(
+      id,
+      {
+        $set: updateData,
+      },
+      {
+        new: true,
+        runValidators: true,
+      }
+    );
+
+    if (!updatedQuestion) {
+      return res.status(404).json({
+        message: "Question not found",
+      });
+    }
+
+    return res.status(200).json({
+      id: updatedQuestion._id.toString(),
+      title: updatedQuestion.title,
+      difficulty: updatedQuestion.difficulty,
+      platform: updatedQuestion.platform || null,
+      problemUrl: updatedQuestion.problemUrl || null,
+      resource: updatedQuestion.resource || null,
+    });
+  } catch (error) {
+    console.error("Update question error:", error);
+
+    return res.status(500).json({
+      message: "Failed to update question",
+      error: error.message,
     });
   }
+};
 
-  if (!Array.isArray(questionIds)) {
-    return res.status(400).json({
-      message: "questionIds must be an array"
+const deleteQuestion = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    // Validate question ID
+    if (!mongoose.Types.ObjectId.isValid(id)) {
+      return res.status(400).json({
+        message: "Invalid question ID",
+      });
+    }
+
+    const question = await Question.findByIdAndDelete(id);
+
+    if (!question) {
+      return res.status(404).json({
+        message: "Question not found",
+      });
+    }
+
+    return res.status(200).json({
+      message: "Question deleted",
+      question: {
+        id: question._id.toString(),
+        title: question.title,
+        difficulty: question.difficulty,
+        platform: question.platform || null,
+        problemUrl: question.problemUrl || null,
+        resource: question.resource || null,
+      },
+    });
+  } catch (error) {
+    console.error("Delete question error:", error);
+
+    return res.status(500).json({
+      message: "Failed to delete question",
+      error: error.message,
     });
   }
+};
 
-  const questionMap = new Map(
-    subTopic.questions.map((question) => [
-      question.id,
-      question
-    ])
-  );
+const reorderQuestions = async (req, res) => {
+  try {
+    const { subTopicId, questionIds } = req.body;
 
-  subTopic.questions = questionIds
-    .map((id) => questionMap.get(id))
-    .filter(Boolean);
+    // Validate subtopicId
+    if (!subTopicId) {
+      return res.status(400).json({
+        message: "subTopicId is required",
+      });
+    }
 
-  saveSheet(sheet);
+    if (!mongoose.Types.ObjectId.isValid(subTopicId)) {
+      return res.status(400).json({
+        message: "Invalid subtopic ID",
+      });
+    }
 
-  res.json(subTopic.questions);
-}
+    // Validate questionIds
+    if (!Array.isArray(questionIds)) {
+      return res.status(400).json({
+        message: "questionIds must be an array",
+      });
+    }
+
+    // Validate every question ID
+    const invalidObjectIds = questionIds.filter(
+      (id) => !mongoose.Types.ObjectId.isValid(id)
+    );
+
+    if (invalidObjectIds.length > 0) {
+      return res.status(400).json({
+        message: "Some question IDs are invalid",
+        invalidIds: invalidObjectIds,
+      });
+    }
+
+    // Find subtopic
+    const subTopic = await SubTopic.findById(subTopicId);
+
+    if (!subTopic) {
+      return res.status(404).json({
+        message: "Subtopic not found",
+      });
+    }
+
+    // Get all questions belonging to this subtopic
+    const questions = await Question.find({
+      subTopicId: subTopic._id,
+    });
+
+    // Every question must be included
+    if (questionIds.length !== questions.length) {
+      return res.status(400).json({
+        message:
+          "questionIds must contain all questions in this subtopic",
+      });
+    }
+
+    // Map questions by MongoDB _id
+    const questionMap = new Map(
+      questions.map((question) => [
+        question._id.toString(),
+        question,
+      ])
+    );
+
+    // Check that every question belongs to this subtopic
+    const invalidIds = questionIds.filter(
+      (id) => !questionMap.has(id.toString())
+    );
+
+    if (invalidIds.length > 0) {
+      return res.status(400).json({
+        message:
+          "Some question IDs are invalid or do not belong to this subtopic",
+        invalidIds,
+      });
+    }
+
+    // Check duplicate IDs
+    const uniqueIds = new Set(
+      questionIds.map((id) => id.toString())
+    );
+
+    if (uniqueIds.size !== questionIds.length) {
+      return res.status(400).json({
+        message: "questionIds cannot contain duplicates",
+      });
+    }
+
+    // Update order
+    const operations = questionIds.map(
+      (questionId, index) => ({
+        updateOne: {
+          filter: {
+            _id: questionId,
+            subTopicId: subTopic._id,
+          },
+          update: {
+            $set: {
+              order: index + 1,
+            },
+          },
+        },
+      })
+    );
+
+    if (operations.length > 0) {
+      await Question.bulkWrite(operations);
+    }
+
+    // Return reordered questions
+    const reorderedQuestions = await Question.find({
+      subTopicId: subTopic._id,
+    })
+      .sort({
+        order: 1,
+      })
+      .lean();
+
+    return res.status(200).json(
+      reorderedQuestions.map((question) => ({
+        id: question._id.toString(),
+        title: question.title,
+        difficulty: question.difficulty,
+        platform: question.platform || null,
+        problemUrl: question.problemUrl || null,
+        resource: question.resource || null,
+      }))
+    );
+  } catch (error) {
+    console.error("Reorder questions error:", error);
+
+    return res.status(500).json({
+      message: "Failed to reorder questions",
+      error: error.message,
+    });
+  }
+};
 
 module.exports = {
   getQuestions,
   createQuestion,
   updateQuestion,
   deleteQuestion,
-  reorderQuestions
+  reorderQuestions,
 };

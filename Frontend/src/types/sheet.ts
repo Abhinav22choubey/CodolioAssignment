@@ -10,13 +10,11 @@ export interface Question {
 export interface SubTopic {
   id: string;
   title: string;
-  questions: Question[];
 }
 
 export interface Topic {
   id: string;
   title: string;
-  subTopics: SubTopic[];
 }
 
 export interface Sheet {

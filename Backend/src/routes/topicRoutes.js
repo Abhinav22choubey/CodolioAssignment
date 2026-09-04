@@ -8,19 +8,25 @@ const {
   createTopic,
   updateTopic,
   deleteTopic,
-  reorderTopics
+  reorderTopics,
 } = require("../controllers/topicController");
 
+// GET /api/topics
 router.get("/", getTopics);
 
-router.get("/:id", getTopic);
-
+// POST /api/topics
 router.post("/", createTopic);
 
+// PUT /api/topics/reorder
 router.put("/reorder", reorderTopics);
 
+// GET /api/topics/:id
+router.get("/:id", getTopic);
+
+// PUT /api/topics/:id
 router.put("/:id", updateTopic);
 
+// DELETE /api/topics/:id
 router.delete("/:id", deleteTopic);
 
 module.exports = router;

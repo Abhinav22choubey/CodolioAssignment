@@ -7,32 +7,22 @@ const {
   createSubTopic,
   updateSubTopic,
   deleteSubTopic,
-  reorderSubTopics
+  reorderSubTopics,
 } = require("../controllers/subTopicController");
 
-router.get(
-  "/topics/:topicId/subtopics",
-  getSubTopics
-);
+// Get all subtopics for a topic
+router.get("/topics/:topicId/subtopics", getSubTopics);
 
-router.post(
-  "/topics/:topicId/subtopics",
-  createSubTopic
-);
+// Create a subtopic inside a topic
+router.post("/topics/:topicId/subtopics", createSubTopic);
 
-router.put(
-  "/subtopics/reorder",
-  reorderSubTopics
-);
+// Reorder subtopics
+router.put("/subtopics/reorder", reorderSubTopics);
 
-router.put(
-  "/subtopics/:id",
-  updateSubTopic
-);
+// Update subtopic
+router.put("/subtopics/:id", updateSubTopic);
 
-router.delete(
-  "/subtopics/:id",
-  deleteSubTopic
-);
+// Delete subtopic
+router.delete("/subtopics/:id", deleteSubTopic);
 
 module.exports = router;

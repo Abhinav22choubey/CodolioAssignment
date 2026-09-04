@@ -52,6 +52,7 @@ export async function updateTopic(
 export async function deleteTopic(
   id: string
 ) {
+  // console.log(id)
   const response = await api.delete<{
     message: string;
     topic: Topic;
