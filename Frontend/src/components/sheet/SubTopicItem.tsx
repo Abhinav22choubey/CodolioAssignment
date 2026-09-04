@@ -150,18 +150,29 @@ export const SubTopicItem = ({
     <div
       ref={setNodeRef}
       style={style}
-      className="mb-2.5 rounded-lg border border-slate-200/80 dark:border-slate-800 bg-slate-50/70 dark:bg-slate-900/60 overflow-hidden shadow-2xs"
+      className="mb-2.5 rounded-lg border border-orange-100 dark:border-slate-800 bg-orange-50/40 dark:bg-slate-900/60 overflow-hidden shadow-2xs"
     >
       {/* Subtopic Header */}
-      <div className="flex items-center justify-between gap-3 px-3.5 py-2.5 bg-slate-100/70 dark:bg-slate-800/60 border-b border-slate-200/60 dark:border-slate-800 transition-colors">
+      <div
+        className="flex items-center justify-between gap-3 px-3.5 py-2.5 bg-orange-100/50 dark:bg-slate-800/60 border-b border-orange-100 dark:border-slate-800 transition-colors cursor-pointer"
+        onClick={() => toggleSubTopic(subTopic.id)}
+      >
         <div className="flex items-center gap-2 min-w-0 flex-1">
           {/* Drag Handle */}
-          <DragHandle {...attributes} {...listeners} label={`Drag ${subTopic.title}`} />
+          <DragHandle
+            {...attributes}
+            {...listeners}
+            onClick={(event) => event.stopPropagation()}
+            label={`Drag ${subTopic.title}`}
+          />
 
           {/* Expand/Collapse Chevron Button */}
           <button
             type="button"
-            onClick={() => toggleSubTopic(subTopic.id)}
+            onClick={(event) => {
+              event.stopPropagation();
+              toggleSubTopic(subTopic.id);
+            }}
             aria-label={isExpanded ? `Collapse ${subTopic.title}` : `Expand ${subTopic.title}`}
             className="p-1 rounded text-slate-500 hover:text-slate-800 dark:hover:text-slate-200 transition-transform"
           >
@@ -175,10 +186,13 @@ export const SubTopicItem = ({
           {/* Subtopic Title & Question Count */}
           <button
             type="button"
-            onClick={() => toggleSubTopic(subTopic.id)}
-            className="flex items-center gap-2 text-left font-medium text-slate-800 dark:text-slate-200 hover:text-indigo-600 dark:hover:text-indigo-400 text-sm truncate"
+            onClick={(event) => {
+              event.stopPropagation();
+              toggleSubTopic(subTopic.id);
+            }}
+            className="flex items-center gap-2 text-left font-medium text-slate-800 dark:text-slate-200 hover:text-orange-600 dark:hover:text-orange-400 text-sm truncate"
           >
-            <FolderOpen className="w-4 h-4 text-slate-400 shrink-0" />
+            <FolderOpen className="w-4 h-4 text-orange-400 shrink-0" />
             <span className="truncate">{subTopic.title}</span>
           </button>
 
@@ -189,7 +203,7 @@ export const SubTopicItem = ({
         </div>
 
         {/* Actions for Sub-topic */}
-        <div className="flex items-center gap-1.5 shrink-0">
+        <div className="flex items-center gap-1.5 shrink-0" onClick={(event) => event.stopPropagation()}>
           <button
             type="button"
             onClick={() =>
@@ -271,4 +285,3 @@ export const SubTopicItem = ({
     </div>
   );
 };
-

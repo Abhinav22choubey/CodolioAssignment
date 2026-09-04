@@ -176,13 +176,21 @@ export const TopicItem = ({
     <div
       ref={setNodeRef}
       style={style}
-      className="rounded-xl border border-slate-200/90 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm transition-all hover:border-slate-300 dark:hover:border-slate-700 overflow-hidden"
+      className="rounded-xl border border-orange-200/80 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-sm transition-all hover:border-orange-300 dark:hover:border-slate-700 overflow-hidden"
     >
       {/* Topic Card Header */}
-      <div className="flex items-center justify-between gap-3 p-4 bg-slate-50/90 dark:bg-slate-900 border-b border-slate-200/70 dark:border-slate-800/80 transition-colors">
+      <div
+        className="flex items-center justify-between gap-3 p-4 bg-orange-50/70 dark:bg-slate-900 border-b border-orange-100 dark:border-slate-800/80 transition-colors cursor-pointer"
+        onClick={() => toggleTopic(topic.id)}
+      >
         <div className="flex items-center gap-2.5 min-w-0 flex-1">
           {/* Drag Handle */}
-          <DragHandle {...attributes} {...listeners} label={`Drag ${topic.title}`} />
+          <DragHandle
+            {...attributes}
+            {...listeners}
+            onClick={(event) => event.stopPropagation()}
+            label={`Drag ${topic.title}`}
+          />
 
           {/* Sequence index */}
           <span className="text-xs font-mono font-semibold text-indigo-600 dark:text-indigo-400 bg-indigo-500/10 px-2 py-0.5 rounded">
@@ -192,7 +200,10 @@ export const TopicItem = ({
           {/* Expand/Collapse Chevron */}
           <button
             type="button"
-            onClick={() => toggleTopic(topic.id)}
+            onClick={(event) => {
+              event.stopPropagation();
+              toggleTopic(topic.id);
+            }}
             aria-label={isExpanded ? `Collapse ${topic.title}` : `Expand ${topic.title}`}
             className="p-1 rounded text-slate-500 hover:text-slate-900 dark:hover:text-white transition-transform"
           >
@@ -206,10 +217,13 @@ export const TopicItem = ({
           {/* Topic Title */}
           <button
             type="button"
-            onClick={() => toggleTopic(topic.id)}
-            className="flex items-center gap-2 text-left font-semibold text-slate-900 dark:text-white hover:text-indigo-600 dark:hover:text-indigo-400 text-base sm:text-lg tracking-tight truncate"
+            onClick={(event) => {
+              event.stopPropagation();
+              toggleTopic(topic.id);
+            }}
+            className="flex items-center gap-2 text-left font-semibold text-slate-900 dark:text-white hover:text-orange-600 dark:hover:text-orange-400 text-base sm:text-lg tracking-tight truncate"
           >
-            <Folder className="w-5 h-5 text-indigo-500 shrink-0" />
+            <Folder className="w-5 h-5 text-orange-500 shrink-0" />
             <span className="truncate">{topic.title}</span>
           </button>
 
@@ -226,7 +240,7 @@ export const TopicItem = ({
         </div>
 
         {/* Action buttons */}
-        <div className="flex items-center gap-2 shrink-0">
+        <div className="flex items-center gap-2 shrink-0" onClick={(event) => event.stopPropagation()}>
           <button
             type="button"
             onClick={() => openModal("create-subtopic", { topicId: topic.id, topic })}
@@ -258,7 +272,7 @@ export const TopicItem = ({
 
       {/* Expanded Subtopics Container */}
       {isExpanded && (
-        <div className="p-4 bg-white/50 dark:bg-slate-950/30">
+        <div className="p-4 bg-orange-50/20 dark:bg-slate-950/30">
           {activeSubTopicsList.length === 0 ? (
             <EmptyState
               type="subtopics"
@@ -301,4 +315,3 @@ export const TopicItem = ({
     </div>
   );
 };
-

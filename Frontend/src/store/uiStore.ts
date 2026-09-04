@@ -95,21 +95,11 @@ function getInitialTheme(): boolean {
 }
 
 function getInitialExpandedTopics(): Record<string, boolean> {
-  try {
-    const saved = localStorage.getItem(STORAGE_KEY_EXPANDED_TOPICS);
-    return saved ? JSON.parse(saved) : {};
-  } catch {
-    return {};
-  }
+  return {};
 }
 
 function getInitialExpandedSubTopics(): Record<string, boolean> {
-  try {
-    const saved = localStorage.getItem(STORAGE_KEY_EXPANDED_SUBTOPICS);
-    return saved ? JSON.parse(saved) : {};
-  } catch {
-    return {};
-  }
+  return {};
 }
 
 export const useUIStore = create<UIState>((set, get) => {
@@ -286,4 +276,3 @@ export const useUIStore = create<UIState>((set, get) => {
     closeModal: () => set({ activeModal: null, modalPayload: null }),
   };
 });
-

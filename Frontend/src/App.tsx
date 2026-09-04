@@ -1,42 +1,55 @@
-import React from 'react'
-import { useRef, useMemo } from "react";
-import { AlertCircle, RefreshCw } from "lucide-react";
+import React, { useMemo, useRef } from "react";
 import type { AxiosError } from "axios";
+import { AlertCircle, RefreshCw } from "lucide-react";
+
 import { useTopics } from "./hooks/useTopics";
 import { useUIStore } from "./store/uiStore";
+
 import { AppLayout } from "./components/layout/AppLayout";
 import { Header } from "./components/layout/Header";
 import { SheetHeader } from "./components/sheet/SheetHeader";
 import { SheetStats } from "./components/sheet/SheetStats";
 import { SheetFilterBar } from "./components/sheet/SheetFilterBar";
 import { Sheet } from "./components/sheet/Sheet";
+
 import {
   StatsSkeleton,
   SheetSkeleton,
 } from "./components/common/LoadingSkeleton";
+
 import { TopicModals } from "./components/topic/TopicModals";
 import { SubTopicModals } from "./components/subtopic/SubTopicModals";
 import { QuestionModals } from "./components/question/QuestionModals";
 
-const App = () => {
-export default function App() {
-  const { data: topics = [], isLoading, isError, error, refetch } = useTopics();
+const App: React.FC = () => {
+  const {
+    data: topics = [],
+    isLoading,
+    isError,
+    error,
+    refetch,
+  } = useTopics();
+
   const { isQuestionSolved } = useUIStore();
+
   const searchInputRef = useRef<HTMLInputElement>(null);
 
   // Compute live sheet statistics
   const { totalQuestions, solvedQuestions, availablePlatforms } = useMemo(() => {
     let qCount = 0;
     let sCount = 0;
+
     const platforms = new Set<string>();
 
     topics.forEach((topic) => {
       (topic.subTopics || []).forEach((sub) => {
         (sub.questions || []).forEach((q) => {
           qCount++;
+
           if (isQuestionSolved(q.id)) {
             sCount++;
           }
+
           if (q.platform && q.platform.trim()) {
             platforms.add(q.platform.trim().toLowerCase());
           }
@@ -57,6 +70,7 @@ export default function App() {
 
   const getErrorMessage = (err: unknown): string => {
     const axiosError = err as AxiosError<{ message?: string }>;
+
     return (
       axiosError?.response?.data?.message ||
       axiosError?.message ||
@@ -65,10 +79,6 @@ export default function App() {
   };
 
   return (
-    <div className="bg-blue-500 min-h-screen min-w-full">
-      HII
-    </div>
-  )
     <AppLayout>
       {/* Top Navigation Bar */}
       <Header
@@ -91,12 +101,15 @@ export default function App() {
             <div className="p-3 rounded-full bg-rose-100 dark:bg-rose-900/40 text-rose-600 dark:text-rose-400 mb-3">
               <AlertCircle className="w-8 h-8" />
             </div>
+
             <h3 className="text-lg font-bold text-slate-900 dark:text-white mb-1">
               Unable to load the sheet
             </h3>
+
             <p className="text-sm text-slate-600 dark:text-slate-400 max-w-md mb-5">
               {getErrorMessage(error)}
             </p>
+
             <button
               type="button"
               onClick={() => refetch()}
@@ -131,6 +144,6 @@ export default function App() {
       <QuestionModals />
     </AppLayout>
   );
-}
+};
 
-export default App
+export default App;
